@@ -10,21 +10,6 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         
-//        ZStack(content:  {
-//            RoundedRectangle(cornerRadius: 30)
-//                .stroke(lineWidth: 3)
-//                .padding()
-//                .foregroundColor(/*@START_MENU_TOKEN@*/.red/*@END_MENU_TOKEN@*/)
-//
-//            VStack {
-//                        Image(systemName: "globe")
-//                            .imageScale(.large)
-//                            .foregroundColor(.accentColor)
-//                        Text("Hello, world! 2024")
-//                            .padding()
-//                    }
-//        } )
-//        .padding()
         
 //        ZStack {
 //            RoundedRectangle(cornerRadius: 20)
@@ -61,9 +46,6 @@ struct CardView: View{
         })
     }
 }
-
-
-
 
 
 
