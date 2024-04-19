@@ -9,37 +9,51 @@ import SwiftUI
 
 struct ContentView: View {
     
-    let emojis: [String] = ["👏", "🤞", "🤌", "🫴", "👎", "🤚", "👇", "👏", "🤞", "🤌", "🫴", "👎", "🤚", "🖕"]
+    let emojis: [String] = ["👏", "🤞", "🤌", "🫴", "👎", "🤚", "👇", "🖕"]
     @State var cardCount: Int = 4
+    
     var body: some View {
         VStack {
-            
-            HStack {
-                ForEach(0..<cardCount, id: \.self) {index in
-                    CardView(content: emojis[index])
-                }
-            }
-            .foregroundColor(.orange)
-            .padding()
-            
-            HStack {
-                Button(action: {
-                    if cardCount < emojis.count {
-                        cardCount += 1
-                    }
-                },label: {
-                    Image(systemName: "rectangle.stack.badge.plus.fill")
-                })
-                Button(action: {
-                    if cardCount > 1 {
-                        cardCount -= 1
-                    }
-                },label: {
-                    Image(systemName: "rectangle.stack.badge.minus.fill")
-                })
-            }
-            .font(.largeTitle)
+            cards
+            cardCountAdjusters
         }
+        .padding()
+    }
+    
+    var cardCountAdjusters: some View {
+        HStack {
+            cardAdder
+           Spacer().frame(width: 50)
+            CardRemover
+        }
+        .font(.largeTitle)
+        .padding()
+    }
+    
+    var cards: some View {
+        HStack {
+            ForEach(0..<cardCount, id: \.self) {index in
+                CardView(content: emojis[index])
+            }
+        }
+        .foregroundColor(.orange)
+    }
+    
+    func cardCountAdjuster (by offset: Int, symbol: String) -> some View {
+        Button(action: {
+            cardCount += offset
+        },label: {
+            Image(systemName: symbol)
+        })
+        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
+    }
+    
+    var cardAdder: some View {
+        cardCountAdjuster(by: 1, symbol: "rectangle.stack.badge.plus.fill")
+    }
+    
+    var CardRemover: some View {
+        cardCountAdjuster(by: -1, symbol: "rectangle.stack.badge.minus.fill")
     }
 }
 
