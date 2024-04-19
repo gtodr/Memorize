@@ -14,7 +14,10 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            cards
+            ScrollView {
+                cards
+            }
+            Spacer()
             cardCountAdjusters
         }
         .padding()
@@ -31,9 +34,9 @@ struct ContentView: View {
     }
     
     var cards: some View {
-        HStack {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
             ForEach(0..<cardCount, id: \.self) {index in
-                CardView(content: emojis[index])
+                CardView(content: emojis[index]).aspectRatio(2/3, contentMode: .fit)
             }
         }
         .foregroundColor(.orange)
@@ -65,16 +68,18 @@ struct CardView: View{
     var body: some View{
         ZStack{
             let base = RoundedRectangle(cornerRadius: 12)
-            if isFaceUp{
+            // Group: For each thing in '{}', do sth. (like .opacity(isFaceUp ? 1 : 0))
+            Group{
                 base.foregroundColor(Color(.white))
                 base.strokeBorder(lineWidth: 2)
                 Text(content).font(.largeTitle)
-            }else {
-                base
             }
+            .opacity(isFaceUp ? 1 : 0)  // opacity: 不透明
+            base.fill().opacity(isFaceUp ? 0 : 1)
+            //如果isFaceUp为true，则Group的视图将完全不透明（opacity为1），而base.fill()将完全透明（opacity为0）；反之亦然。
         }
         .onTapGesture {
-            print("taped!")
+//            print("taped!")
             isFaceUp.toggle()
         }
         
