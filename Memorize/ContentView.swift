@@ -9,15 +9,25 @@ import SwiftUI
 
 struct ContentView: View {
     
-    let emojis: [String] = ["👏", "🤞", "🤌", "🫴", "👎", "🤚", "👇", "🖕"]
+    let Emojis: [[String]] = [["👏", "🤞", "🤌", "🫴", "👎", "🤚", "👇", "🖕"],
+                            ["😀", "😁", "😆", "😘", "😗", "🤪"],
+                            ["🐶", "🐯", "🦆", "🐱", "🐼", "🐔"],
+    ]
+    let gestures: Int = 0
+    let faces: Int = 1
+    let animals: Int = 2
+    @State var emojiTheme: Int = 0
     @State var cardCount: Int = 4
     
     var body: some View {
         VStack {
+            Text("👁Memorize")
+                .font(.largeTitle)
             ScrollView {
                 cards
             }
             Spacer()
+            themeButtons
             cardCountAdjusters
         }
         .padding()
@@ -27,16 +37,16 @@ struct ContentView: View {
         HStack {
             cardAdder
            Spacer().frame(width: 50)
-            CardRemover
+            cardRemover
         }
-        .font(.largeTitle)
+        .font(.title)
         .padding()
     }
     
     var cards: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
             ForEach(0..<cardCount, id: \.self) {index in
-                CardView(content: emojis[index]).aspectRatio(2/3, contentMode: .fit)
+                CardView(content: Emojis[emojiTheme][index]).aspectRatio(2/3, contentMode: .fit)
             }
         }
         .foregroundColor(.orange)
@@ -48,16 +58,46 @@ struct ContentView: View {
         },label: {
             Image(systemName: symbol)
         })
-        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
+        .disabled(cardCount + offset < 1 || cardCount + offset > Emojis[emojiTheme].count)
     }
     
     var cardAdder: some View {
         cardCountAdjuster(by: 1, symbol: "rectangle.stack.badge.plus.fill")
     }
     
-    var CardRemover: some View {
+    var cardRemover: some View {
         cardCountAdjuster(by: -1, symbol: "rectangle.stack.badge.minus.fill")
     }
+    
+    func selectThemeButton (theme: String, symbol: String) -> some View {
+        var selected: Int = 0
+        switch theme {
+            case "gestures" :
+                selected = gestures
+            case "faces" :
+                selected = faces
+            case "animals" :
+                selected = animals
+            default :
+                selected = gestures
+        }
+        return Button(action: {
+            emojiTheme = selected
+        }, label: {
+            Text(symbol)
+        })
+    }
+    
+    var themeButtons: some View {
+        HStack {
+            Text("Emojis Themes:")
+            selectThemeButton(theme: "gestures", symbol: "gestures")
+            selectThemeButton(theme: "faces", symbol: "faces")
+            selectThemeButton(theme: "animals", symbol: "animals")
+        }
+        .padding()
+    }
+    
 }
 
 
