@@ -10,15 +10,15 @@ import SwiftUI
 struct ContentView: View {
     
     let Emojis: [[String]] = [["👏", "🤞", "🤌", "🫴", "👎", "🤚", "👇", "🖕"],
-                            ["😀", "😁", "😆", "😘", "😗", "🤪"],
-                            ["🐶", "🐯", "🦆", "🐱", "🐼", "🐔"],
-    ]
+                            ["😀", "😁", "😆", "😘", "😗", "🤪", "😇", "😅"],
+                            ["🐶", "🐯", "🦆", "🐱", "🐼", "🐔", "🦄", "🐒"],]
     let gestures: Int = 0
     let faces: Int = 1
     let animals: Int = 2
     @State var emojiTheme: Int = 0
-    @State var cardCount: Int = 4
+    @State var cardCount: Int = 8
     
+    // 视图主体
     var body: some View {
         VStack {
             Text("👁Memorize")
@@ -28,7 +28,7 @@ struct ContentView: View {
             }
             Spacer()
             themeButtons
-            cardCountAdjusters
+//            cardCountAdjusters
         }
         .padding()
     }
@@ -44,7 +44,7 @@ struct ContentView: View {
     }
     
     var cards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
             ForEach(0..<cardCount, id: \.self) {index in
                 CardView(content: Emojis[emojiTheme][index]).aspectRatio(2/3, contentMode: .fit)
             }
@@ -69,7 +69,6 @@ struct ContentView: View {
         cardCountAdjuster(by: -1, symbol: "rectangle.stack.badge.minus.fill")
     }
     
-// Bug: 当前主题的card张数超过下一个（被选择的）主题可选的总张数时，出错
     func selectThemeButton (theme: String, symbol: String) -> some View {
         var selected: Int = 0
         switch theme {
@@ -84,7 +83,7 @@ struct ContentView: View {
         }
         return Button(action: {
             emojiTheme = selected
-            cardCount = 4
+//            cardCount = 4 // 结构体是值类型，值改变时会重新渲染视图
         }, label: {
             Text(symbol)
         })
