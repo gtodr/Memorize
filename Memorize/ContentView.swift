@@ -69,6 +69,7 @@ struct ContentView: View {
         cardCountAdjuster(by: -1, symbol: "rectangle.stack.badge.minus.fill")
     }
     
+// Bug: 当前主题的card张数超过下一个（被选择的）主题可选的总张数时，出错
     func selectThemeButton (theme: String, symbol: String) -> some View {
         var selected: Int = 0
         switch theme {
@@ -83,6 +84,7 @@ struct ContentView: View {
         }
         return Button(action: {
             emojiTheme = selected
+            cardCount = 4
         }, label: {
             Text(symbol)
         })
