@@ -4,7 +4,6 @@
 //
 //  Created by 徐德润 on 2023/6/20.
 //
-
 import SwiftUI
 
 struct ContentView: View {
@@ -22,7 +21,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Text("👁Memorize")
-                .font(.largeTitle)
+                .font(.title)
             ScrollView {
                 cards
             }
@@ -86,18 +85,25 @@ struct ContentView: View {
             emojiTheme = selected
             cardCount = Emojis[emojiTheme].count
             Emojis[emojiTheme].shuffle()
-        }, label: {
-            Text(symbol)
-        })
+        }){
+            VStack {
+                Image(systemName: symbol)
+                    .font(.largeTitle)
+                Text(theme)
+                    .font(.system(size: 15))
+            }
+        }
     }
     
     var themeButtons: some View {
         HStack {
-            Text("Emojis Themes:")
-            selectThemeButton(theme: "gestures", symbol: "gestures")
-            selectThemeButton(theme: "faces", symbol: "faces")
-            selectThemeButton(theme: "animals", symbol: "animals")
+            selectThemeButton(theme: "gestures", symbol: "hand.thumbsup.circle")
+            Spacer()
+            selectThemeButton(theme: "faces", symbol: "face.smiling")
+            Spacer()
+            selectThemeButton(theme: "animals", symbol: "pawprint.circle")
         }
+        .font(.system(size: 10))
         .padding()
     }
     
