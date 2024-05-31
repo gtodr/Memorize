@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  Memorize
 //
-//  Created by 徐德润 on 2023/6/20.
+//  Created by dwayne on 2023/6/20.
 //
 import SwiftUI
 
@@ -104,6 +104,7 @@ struct ContentView: View {
             selectThemeButton(theme: "animals", symbol: "pawprint.circle")
         }
         .font(.system(size: 10))
+        .frame(height: 10)
         .padding()
     }
     
